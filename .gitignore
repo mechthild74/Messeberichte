@@ -1,0 +1,17 @@
+# Secrets
+.env
+
+# MCP Server Config (enthält Tokens)
+.mcp.json
+
+# Claude settings
+.claude/settings.local.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp
+*.tmp
+*.bak
+*.log
