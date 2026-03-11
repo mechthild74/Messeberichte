@@ -1,7 +1,7 @@
 # Plan: Messe-Capture-System — Telegram-basierte Messeeindrücke erfassen & in Marketing-Aktivitäten umwandeln
 
 **Erstellt:** 2026-03-11
-**Status:** Entwurf
+**Status:** Teilweise implementiert
 **Anforderung:** System aufbauen, das während Fachmessebesuchen (SHK/Handwerk) über Telegram Eindrücke, Ideen und Kontakte erfasst, diese automatisch zu strukturierten Zusammenfassungen aufbereitet und daraus konkrete Marketing-Aktivitäten für Wachstum ableitet.
 
 ---
@@ -609,3 +609,44 @@ Die Implementierung ist abgeschlossen, wenn:
 - Whisper API: ~0,006$/Minute → bei 50 Sprachnachrichten à 30 Sek. = ~0,15$ pro Messe
 - n8n: bereits vorhanden (self-hosted auf Hostinger)
 - Gesamt pro Messe: unter 1€ variable Kosten
+
+---
+
+## Implementierungsnotizen
+
+**Teilweise implementiert:** 2026-03-11
+
+### Zusammenfassung
+
+Schritte 5-12 (alle Workspace-Dateien) wurden vollständig umgesetzt:
+- Capture-Anleitung, Kategorien-Referenz, KI-Prompts, Auswertungs- und Marketing-Templates erstellt
+- `/messe-auswertung` Command erstellt
+- Output-Verzeichnis `outputs/messen/` angelegt
+- CLAUDE.md mit Messe-Workflow-Dokumentation, neuem Command und Struktur aktualisiert
+- current-data.md um Messe-Kalender ergänzt
+
+Schritte 1-4 (Infrastruktur) teilweise erledigt:
+- Schritt 1: Telegram-Credentials bereits in n8n vorhanden (aus "Telegram Support" Workflow)
+- Schritt 2: SeaTable-Base "Messe-Capture" eingerichtet, API-Key in `.env` hinterlegt ✅
+- Schritt 3: n8n-Workflow noch zu bauen — bestehender Workflow enthält bereits Telegram Trigger + Switch + OpenAI Whisper
+- Schritt 4: Bot-Commands konfigurieren — nach Schritt 3
+
+### Abweichungen vom Plan
+
+- Reihenfolge angepasst: Schritte 5-12 vorgezogen, da sie keine externen Abhängigkeiten haben
+- Schritt 2 (SeaTable) vom User selbst erledigt
+- Schritt 1 (Telegram-Bot) entfällt teilweise — Credentials existieren bereits in n8n
+- MCP-Verbindung zu n8n war in dieser Session nicht verfügbar → Workflow-Bau auf nächste Session verschoben
+
+### Geklärte Fragen
+
+1. SeaTable: Free-Account angelegt, Base eingerichtet ✅
+2. Whisper: OpenAI Whisper API, bereits in n8n konfiguriert ✅
+3. Messe: SHK+E Essen, 17.–20. März 2026 ✅
+4. Bot-Name: Noch offen (bestehender Bot aus "Telegram Support" wird geprüft)
+
+### Nächste Session
+
+- n8n MCP-Verbindung prüfen
+- Bestehenden "Telegram Support" Workflow analysieren (Screenshot oder JSON-Export vorbereiten)
+- Messe-Capture n8n-Workflow bauen (Schritt 3-4)

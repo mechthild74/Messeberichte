@@ -19,7 +19,18 @@ _Noch in der Gründungsphase — Metriken werden aufgebaut, sobald erste Projekt
 - **SHK-Projekt Termin-/Routenplanung:** MVP in Entwicklung — Testdaten erstellt (50 Kunden, 10 Monteure, 63 Aufträge), n8n-Workflows für Monteur-Zuweisung und E-Mail-Kommunikation erstellt (OneDrive/Outlook-basiert). Nächster Schritt: Workflows in n8n importieren und testen. Kundenangebot noch nicht besprochen (Budget offen).
 - **SHK-Projekt Anfrage-Check (Betrieb R):** Digitalisierung des Kundenanfrage-Prozesses (Ist-Aufnahme Heizung/Bad/Sanierung). Konzeption abgeschlossen. MS Forms gebaut (71 Felder, validiert). Memomeister API getestet. n8n Workflow 1 (Forms→Memomeister) erstellt mit 3-Memo-Architektur (Bericht, JSON-Daten, Notizen) + Auswertungs-Excel. Nächste Schritte: Workflow in n8n importieren/testen, WF3 (Plausibilität) bauen, Sykasoft SQL-Zugang klären.
 - **Partnerschaften:** Aktive Zusammenarbeit mit zwei Partnern (Handwerksberatung, Prozessberatung)
-- **Tooling:** Make.com und n8n als primäre Automatisierungsplattformen, Brevo für E-Mail-Marketing (geplant)
+- **Messe-Capture-System:** Workspace-Dateien (Templates, Commands, Referenzdokumente) fertig. SeaTable-Base eingerichtet, API-Key hinterlegt. Telegram-Credentials in n8n vorhanden. n8n-Workflow noch zu bauen (nächste Session).
+- **Tooling:** Make.com und n8n als primäre Automatisierungsplattformen, Brevo für E-Mail-Marketing (geplant), SeaTable für Messe-Daten (DSGVO-konform)
+
+## Messe-Kalender
+
+| Messe | Datum | Ort | Schwerpunkt | Status |
+| --- | --- | --- | --- | --- |
+| SHK+E Essen | 17.–20. März 2026 | Messe Essen | Sanitär, Heizung, Klima, Elektro | Geplant |
+
+_Messen hier eintragen, sobald Termine feststehen. Nach Auswertung Status auf "Ausgewertet" setzen._
+
+---
 
 ## Datenquellen
 

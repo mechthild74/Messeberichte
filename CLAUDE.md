@@ -37,11 +37,18 @@ Claude sollte sich immer über `/prime` am Session-Start orientieren, dann mit v
 │       ├── prime.md       # /prime — Session-Initialisierung
 │       ├── create-plan.md # /create-plan — Implementierungspläne erstellen
 │       ├── implement.md   # /implement — Pläne umsetzen
-│       └── shutdown.md    # /shutdown — Session sauber beenden
+│       ├── shutdown.md    # /shutdown — Session sauber beenden
+│       └── messe-auswertung.md # /messe-auswertung — Messe-Rohdaten auswerten
 ├── context/               # Hintergrund-Kontext über den User und das Projekt
 ├── plans/                 # Implementierungspläne erstellt von /create-plan
 ├── outputs/               # Arbeitsergebnisse und Deliverables
+│   └── messen/            # Messe-Auswertungen (pro Messe ein Ordner)
 ├── reference/             # Vorlagen, Beispiele, wiederverwendbare Patterns
+│   ├── messe-capture-anleitung.md   # Anleitung für Telegram-Erfassung
+│   ├── messe-kategorien.md          # Kategorie-System (#kontakt, #trend, etc.)
+│   ├── messe-ki-prompts.md          # KI-Prompts für Zusammenfassung & Aktionsplan
+│   ├── messe-auswertung-template.md # Template für Messe-Zusammenfassung
+│   └── messe-marketing-aktionen-template.md # Template für Marketing-Aktionsplan
 └── scripts/               # Automatisierungsskripte (falls zutreffend)
 ```
 
@@ -89,6 +96,48 @@ Beispiel: `/implement plans/2026-01-28-wettbewerbs-analyse-command.md`
 
 **Zweck:** Session sauber beenden — Workspace scannen, aufräumen, CLAUDE.md und Context aktualisieren.
 
+### /messe-auswertung [messe-name]
+
+**Zweck:** Rohdaten eines Messebesuchs auswerten und strukturierte Outputs erstellen.
+
+Liest Messe-Rohdaten (aus Datei oder Chat), erstellt Zusammenfassung, Marketing-Aktionsplan und Follow-up-Nachrichten. Outputs landen in `outputs/messen/[datum]-[messe-name]/`.
+
+Beispiel: `/messe-auswertung IFH Nürnberg 2026`
+
+---
+
+## Messe-Capture-Workflow
+
+### Überblick
+
+System zur strukturierten Erfassung und Auswertung von Fachmessebesuchen:
+1. **Während der Messe:** Telegram-Bot erfasst Eindrücke (#kontakt, #trend, #pain, #idee, #wettbewerb, #foto, #zitat, #produkt)
+2. **Automatische Verarbeitung:** n8n-Workflow → Hashtag-Extraktion → SeaTable-Speicherung (DSGVO-konform)
+3. **Nach der Messe:** `/messe-auswertung` erstellt strukturierte Zusammenfassung + priorisierten Marketing-Aktionsplan
+
+### Referenzdokumente
+
+- `reference/messe-capture-anleitung.md` — Anleitung für die Telegram-Erfassung (vor jeder Messe lesen)
+- `reference/messe-kategorien.md` — Detaillierte Kategorie-Definitionen mit Beispielen
+- `reference/messe-ki-prompts.md` — KI-Prompts für Zusammenfassung und Aktionsableitung
+- `reference/messe-auswertung-template.md` — Template für Messe-Zusammenfassungen
+- `reference/messe-marketing-aktionen-template.md` — Template für Marketing-Aktionspläne
+
+### Output-Struktur
+
+Pro Messe wird ein Ordner erstellt: `outputs/messen/YYYY-MM-DD-[messe-name]/`
+- `rohdaten.md` — Exportierte Rohdaten aus SeaTable
+- `auswertung.md` — Strukturierte Zusammenfassung
+- `marketing-aktionen.md` — Priorisierter Aktionsplan
+- `follow-ups.md` — Personalisierte Follow-up-Nachrichten
+
+### Infrastruktur-Status
+
+- **Telegram-Bot:** Credentials bereits in n8n vorhanden (aus "Telegram Support" Workflow)
+- **SeaTable:** Base "Messe-Capture" eingerichtet, API-Key in `.env` hinterlegt
+- **n8n-Workflow:** Noch zu bauen (Schritt 3-4 des Plans) — bestehender Workflow hat bereits Telegram Trigger + Switch + OpenAI Whisper Transkription
+- **Workspace-Dateien:** Vollständig implementiert
+
 ---
 
 ## Integrationen
@@ -98,7 +147,9 @@ Beispiel: `/implement plans/2026-01-28-wettbewerbs-analyse-command.md`
 Der Workspace hat eine MCP-Verbindung zum n8n-Server auf Hostinger (`n8n.srv1159226.hstgr.cloud`). Claude kann Workflows direkt in n8n erstellen, lesen und bearbeiten. Konfiguration in `.mcp.json`.
 
 **Bestehende Workflows:**
-- "Telegram Support" — Basis für den Messe-Capture-Workflow
+- "Telegram Support" — Basis für den Messe-Capture-Workflow (enthält: Telegram Trigger, Switch, OpenAI Whisper Transkription)
+
+**Hinweis:** MCP-Verbindung muss zu Session-Start geprüft werden — in der ersten Session (2026-03-11) waren die n8n-MCP-Tools nicht geladen. Ggf. Session neu starten, wenn n8n-Tools benötigt werden.
 
 ---
 
@@ -106,7 +157,7 @@ Der Workspace hat eine MCP-Verbindung zum n8n-Server auf Hostinger (`n8n.srv1159
 
 | Plan | Status | Beschreibung |
 | --- | --- | --- |
-| `plans/2026-03-11-messe-capture-system.md` | Entwurf | Telegram-basiertes Messe-Capture-System mit SeaTable + n8n + Claude-Auswertung |
+| `plans/2026-03-11-messe-capture-system.md` | Teilweise implementiert | Telegram-basiertes Messe-Capture-System mit SeaTable + n8n + Claude-Auswertung — Workspace-Dateien fertig, Infrastruktur (Bot, SeaTable, n8n) noch offen |
 
 ---
 
