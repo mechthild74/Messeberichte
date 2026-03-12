@@ -63,6 +63,31 @@ Wende Prompt 3 (Kontakt-Follow-up-Generator) aus `reference/messe-ki-prompts.md`
 
 Schreibe das Ergebnis in: `outputs/messen/[ordner]/follow-ups.md`
 
+### Schritt 6b: Follow-ups in SeaTable einfügen
+
+Füge die generierten Follow-ups als Einzelzeilen in die SeaTable-Tabelle "Follow-ups" (Table-ID: `Nid7`) ein.
+
+Erstelle ein Python-Script oder nutze die SeaTable API direkt:
+- **API Gateway:** `https://cloud.seatable.io/api-gateway/api/v2/dtables/{uuid}/rows/`
+- **Methode:** POST mit `table_name: "Follow-ups"`
+- **Felder pro Zeile:** Messe, Kontakt-Name, Firma, E-Mail, Betreff, Nachricht, Kanal, Prioritaet, Status (initial "Offen")
+- **API-Token:** Aus `.env` laden (`Seatable API Key`)
+
+Beispiel-Zeile:
+```json
+{
+  "Messe": "IFH Nürnberg 2026",
+  "Kontakt-Name": "Max Mustermann",
+  "Firma": "Mustermann GmbH",
+  "E-Mail": "max@mustermann.de",
+  "Betreff": "Unser Gespräch auf der IFH",
+  "Nachricht": "Hallo Herr Mustermann, ...",
+  "Kanal": "E-Mail",
+  "Prioritaet": "Hoch",
+  "Status": "Offen"
+}
+```
+
 ### Schritt 7: Zusammenfassung an den User
 
 Liefere dem User:

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>transformwerk.digital — Event Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Screen (sichtbar als Standard) -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-box">
+            <div class="logo-icon" style="margin:0 auto 16px">T</div>
+            <h2>Dashboard Login</h2>
+            <p style="color:var(--text-muted);margin-bottom:20px">Bitte Passwort eingeben</p>
+            <form onsubmit="doLogin(event)">
+                <input type="password" id="loginPassword" class="login-input" placeholder="Passwort" autofocus>
+                <div id="loginError" style="color:var(--red);font-size:13px;margin:8px 0;display:none">Falsches Passwort</div>
+                <button type="submit" class="btn btn-sm">Anmelden</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Header (versteckt bis Login) -->
+    <header class="header" id="appHeader" style="display:none">
+        <div class="header-inner">
+            <div class="logo">
+                <div class="logo-icon">T</div>
+                <span>transformwerk.digital <span class="logo-light">Event Dashboard</span></span>
+            </div>
+            <div class="messe-selector">
+                <label for="messeSelect">Messe:</label>
+                <select id="messeSelect" onchange="loadMesse()">
+                    <option value="">Wird geladen...</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content (versteckt bis Login) -->
+    <main class="main" id="appMain" style="display:none">
+        <!-- Loading State -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Daten werden geladen...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state" style="display:none">
+            <div class="empty-icon">📋</div>
+            <h2>Keine Messe-Daten vorhanden</h2>
+            <p>Erfasse Eindrücke über den Telegram-Bot und sie erscheinen hier automatisch.</p>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div id="dashboard" style="display:none">
+            <!-- KPI Cards -->
+            <section class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Einträge gesamt</div>
+                    <div class="kpi-value" id="kpiTotal">0</div>
+                    <div class="kpi-sub" id="kpiTotalSub"></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Kontakte</div>
+                    <div class="kpi-value" id="kpiKontakte">0</div>
+                    <div class="kpi-sub" id="kpiKontakteSub">potenzielle Leads</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Pain Points</div>
+                    <div class="kpi-value" id="kpiPains">0</div>
+                    <div class="kpi-sub">identifizierte Probleme</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Content-Ideen</div>
+                    <div class="kpi-value" id="kpiIdeen">0</div>
+                    <div class="kpi-sub">Trends + Ideen</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Wettbewerber</div>
+                    <div class="kpi-value" id="kpiWettbewerb">0</div>
+                    <div class="kpi-sub">beobachtet</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Capture-Rate</div>
+                    <div class="kpi-value" id="kpiRate">–</div>
+                    <div class="kpi-sub" id="kpiRateSub">Einträge / Messetag</div>
+                </div>
+            </section>
+
+            <!-- Charts Row -->
+            <section class="charts-row">
+                <div class="card chart-card">
+                    <h3>Kategorien-Verteilung</h3>
+                    <div class="chart-container">
+                        <canvas id="kategorienChart"></canvas>
+                    </div>
+                </div>
+                <div class="card chart-card">
+                    <h3>Erfassung im Zeitverlauf</h3>
+                    <div class="chart-container">
+                        <canvas id="zeitverlaufChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Kontakte Tabelle -->
+            <section class="card">
+                <div class="card-header">
+                    <h3>Top-Kontakte</h3>
+                    <span class="badge" id="kontaktBadge">0</span>
+                </div>
+                <div class="table-wrap">
+                    <table id="kontakteTable">
+                        <thead>
+                            <tr>
+                                <th>Kontakt</th>
+                                <th>Details</th>
+                                <th>Erfasst</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Pain Points & Trends -->
+            <section class="two-col">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Pain Points</h3>
+                        <span class="badge red" id="painBadge">0</span>
+                    </div>
+                    <ul id="painList" class="insight-list"></ul>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Trends & Ideen</h3>
+                        <span class="badge blue" id="trendBadge">0</span>
+                    </div>
+                    <ul id="trendList" class="insight-list"></ul>
+                </div>
+            </section>
+
+            <!-- Zitate -->
+            <section class="card" id="zitateSection" style="display:none">
+                <h3>Bemerkenswerte Zitate</h3>
+                <div id="zitateList" class="zitate-grid"></div>
+            </section>
+
+            <!-- Follow-ups -->
+            <section class="card" id="followupsSection" style="display:none">
+                <div class="card-header">
+                    <h3>Follow-ups</h3>
+                    <span class="badge" id="followupBadge">0</span>
+                </div>
+                <div id="followupsList" class="followups-grid"></div>
+            </section>
+
+            <!-- Reports -->
+            <section class="card">
+                <div class="card-header">
+                    <h3>Reports</h3>
+                </div>
+                <p class="report-intro">Reports werden automatisch aus SeaTable geladen.</p>
+                <div class="reports-grid" id="reportsGrid">
+                    <div class="report-card" onclick="showReport('auswertung')">
+                        <div class="report-icon">📊</div>
+                        <div class="report-title">Auswertung</div>
+                        <div class="report-desc">Zusammenfassung, Trends, Kontakte</div>
+                        <button class="btn btn-sm" id="btnAuswertung" disabled>Nicht verfügbar</button>
+                    </div>
+                    <div class="report-card" onclick="showReport('marketing-aktionen')">
+                        <div class="report-icon">🎯</div>
+                        <div class="report-title">Marketing-Aktionen</div>
+                        <div class="report-desc">Priorisierter Aktionsplan</div>
+                        <button class="btn btn-sm" id="btnMarketing" disabled>Nicht verfügbar</button>
+                    </div>
+                    <div class="report-card" onclick="showReport('follow-ups')">
+                        <div class="report-icon">✉️</div>
+                        <div class="report-title">Follow-ups</div>
+                        <div class="report-desc">Personalisierte Nachrichten</div>
+                        <button class="btn btn-sm" id="btnFollowups" disabled>Nicht verfügbar</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Report Modal -->
+    <div id="reportModal" class="modal" style="display:none">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Report</h2>
+                <div class="modal-actions">
+                    <button class="btn btn-outline" onclick="exportPDF()">PDF exportieren</button>
+                    <button class="btn-close" onclick="closeModal()">&times;</button>
+                </div>
+            </div>
+            <div id="modalBody" class="modal-body"></div>
+        </div>
+    </div>
+
+    <footer class="footer" id="appFooter" style="display:none">
+        <p>by Mechthild Rölfing — Beratung &middot; <span id="lastUpdate"></span></p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

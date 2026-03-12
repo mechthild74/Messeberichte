@@ -1,0 +1,4 @@
+# Zugriff auf sensible Dateien blockieren
+<FilesMatch "\.(env|env\.dashboard)$">
+    Require all denied
+</FilesMatch>

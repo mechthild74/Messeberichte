@@ -1,41 +1,35 @@
-# Aktuelle Daten
+# Aktuelle Daten — Messe-App
 
 ---
-
-## Schlüsselmetriken
-
-_Noch in der Gründungsphase — Metriken werden aufgebaut, sobald erste Projekte laufen._
-
-| Metrik | Aktueller Wert | Zielwert | Notizen |
-| ------ | -------------- | -------- | ------- |
-| Laufende Projekte | 0 | — | Erstes Angebot erstellt |
-| Abgeschlossene Projekte | 0 | — | — |
-| Pipeline / Leads | 3 | — | Datenabgleich-Automatisierung, SHK-Termin-/Routenplanung, SHK-Anfrage-Check (R) |
-
-## Aktueller Stand
-
-- **Erstes Angebot:** Automatisierung eines Datenabgleichs zwischen zwei Applikationen — Angebot erstellt, Rückmeldung ausstehend
-- **Webinar geplant:** "KI-Telefonassistenten für Handwerker & KMUs" — Termin 1: 09.04.2026 09:00 Uhr, Termin 2: 16.04.2026 16:00 Uhr. Landingpage live auf `webinar.transformwerk.digital` (Hostinger PHP/HTML). Brevo komplett eingerichtet (API-Key, Listen, Templates, Automationen, Erinnerungs-Kampagnen, Domain `transformwerk.digital` authentifiziert). GA4 + Clarity Tracking eingerichtet und aktiv. Kalendereinladungen (.ics) auf Danke-Seite implementiert. Teams-Meetings erstellt. Datenschutzerklärung aktualisiert. Bestätigungsmails mit neuem Design (Teal, Kalender-Buttons für Google/Outlook 365/Apple) in Brevo deployed. Noch offen: finale Testanmeldung End-to-End.
-- **SHK-Projekt Termin-/Routenplanung:** MVP in Entwicklung — Testdaten erstellt (50 Kunden, 10 Monteure, 63 Aufträge), n8n-Workflows für Monteur-Zuweisung und E-Mail-Kommunikation erstellt (OneDrive/Outlook-basiert). Nächster Schritt: Workflows in n8n importieren und testen. Kundenangebot noch nicht besprochen (Budget offen).
-- **SHK-Projekt Anfrage-Check (Betrieb R):** Digitalisierung des Kundenanfrage-Prozesses (Ist-Aufnahme Heizung/Bad/Sanierung). Konzeption abgeschlossen. MS Forms gebaut (71 Felder, validiert). Memomeister API getestet. n8n Workflow 1 (Forms→Memomeister) erstellt mit 3-Memo-Architektur (Bericht, JSON-Daten, Notizen) + Auswertungs-Excel. Nächste Schritte: Workflow in n8n importieren/testen, WF3 (Plausibilität) bauen, Sykasoft SQL-Zugang klären.
-- **Partnerschaften:** Aktive Zusammenarbeit mit zwei Partnern (Handwerksberatung, Prozessberatung)
-- **Messe-Capture-System:** Workspace-Dateien (Templates, Commands, Referenzdokumente) fertig. SeaTable-Base eingerichtet, API-Key hinterlegt. Telegram-Credentials in n8n vorhanden. n8n-Workflow noch zu bauen (nächste Session).
-- **Tooling:** Make.com und n8n als primäre Automatisierungsplattformen, Brevo für E-Mail-Marketing (geplant), SeaTable für Messe-Daten (DSGVO-konform)
 
 ## Messe-Kalender
 
 | Messe | Datum | Ort | Schwerpunkt | Status |
 | --- | --- | --- | --- | --- |
-| SHK+E Essen | 17.–20. März 2026 | Messe Essen | Sanitär, Heizung, Klima, Elektro | Geplant |
+| SHK+E Essen | 17.–20. März 2026 | Messe Essen | Sanitär, Heizung, Klima, Elektro | Testdaten vorhanden (31 Einträge, 5 Kontakte) |
+| Hannover Messe | 20.–24. April 2026 | Deutsche Messe Hannover | Industrie, Fertigung, Digital | Testdaten vorhanden (23 Einträge, 4 Kontakte) |
 
 _Messen hier eintragen, sobald Termine feststehen. Nach Auswertung Status auf "Ausgewertet" setzen._
 
+## Infrastruktur-Status
+
+| Komponente | Status | Details |
+| --- | --- | --- |
+| Telegram-Bot | Aktiv | Credentials in n8n, Bot-Commands (/messe, /status, /hilfe) |
+| n8n-Workflow "Messe Capture" | Aktiv | ID: `kMA6sVg1x2KkITCo` — Text, Sprache, Foto, Commands |
+| SeaTable "Messe-Capture" | Aktiv | Einträge (ID: `ZtiH`) + Reports (ID: `G7m3`) + Follow-ups (ID: `Nid7`) |
+| n8n-Workflow "Follow-up Draft" | Erstellt | ID: `SrRcsrSPY1gHRcFB` — muss noch aktiviert werden, IMAP-Credentials fehlen |
+| Dashboard | Deployed | eventdashboard.transformwerk.digital — mit Follow-ups-Sektion |
+| `/messe-auswertung` | Funktioniert | Erstellt Auswertung, Marketing-Aktionen, Follow-ups + SeaTable-Insert |
+
+## Offene Punkte
+
+- Testdaten in SeaTable löschen vor echter Messe (17. März)
+- Foto-Pfad im n8n-Workflow testen
+- n8n Follow-up Draft Workflow aktivieren + IMAP-Credentials eintragen
+- Drafts-Ordnername ermitteln (IMAP LIST — typisch: "Drafts", "INBOX.Drafts", "Entwürfe")
+- Dashboard-Dateien auf Hostinger hochladen (api.php, app.js, style.css, index.html) + Hard Refresh (Ctrl+Shift+R)
+
 ---
 
-## Datenquellen
-
-_Aktuell manuell gepflegt. Kann perspektivisch mit CRM oder Projektmanagement-Tool verknüpft werden._
-
----
-
-_Regelmäßig aktualisieren — besonders Pipeline und Projektstatus._
+_Regelmäßig aktualisieren._

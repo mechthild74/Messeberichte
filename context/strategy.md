@@ -1,31 +1,25 @@
-# Strategie
+# Strategie — Messe-App
 
 ---
 
-## Aktueller Fokuszeitraum
+## Ziel
 
-Gründungsphase / Q1 2026 — Markteintritt und erste Kundenprojekte
+Ein vollautomatisiertes System für Fachmessebesuche: Eindrücke per Telegram erfassen, automatisch kategorisieren und speichern, nach der Messe strukturiert auswerten und in Marketing-Aktionen + Follow-ups umwandeln.
 
 ## Strategische Prioritäten
 
-1. **Kundenakquise:** Erste Kunden im Handwerk gewinnen, Sichtbarkeit aufbauen
-2. **Referenzprojekte:** Erfolgreiche Pilotprojekte umsetzen, die als Referenz dienen
-3. **Produktentwicklung:** Wiederverwendbare Automatisierungslösungen und Templates entwickeln
-4. **Partnerschaften:** Zusammenarbeit mit Beratungspartnern vertiefen und gemeinsame Angebote strukturieren
+1. **System zuverlässig machen:** Dashboard-Login fixen, Foto-Upload testen, End-to-End vor erster echter Messe validieren
+2. **Echte Messe erfolgreich abwickeln:** SHK+E Essen (17.–20. März) als Proof-of-Concept
+3. **Auswertung automatisieren:** Reports direkt in SeaTable speichern, kein manueller Upload
+4. **Skalierbar halten:** Mehrere Messen parallel, Dashboard zeigt alle dynamisch
 
 ## Wie Erfolg aussieht
 
-- Erste bezahlte Kundenprojekte erfolgreich abgeschlossen
-- Referenzprojekte, die weiteren Kunden vorgestellt werden können
-- Etablierte Zusammenarbeit mit Partnern, die Kunden zuführen
-- Wiederverwendbare Workflows und Templates, die Projektarbeit beschleunigen
-
-## Schlüsselentscheidungen oder offene Fragen
-
-- Wie lässt sich das Partnerschaftsmodell am besten strukturieren (Provisionen, gemeinsame Angebote)?
-- Welche Automatisierungslösungen haben das größte Potenzial als wiederverwendbare Produkte?
-- Wie skaliert ein Einzelunternehmen ohne Qualitätsverlust?
+- Während der Messe: Eindrücke in <30 Sekunden per Telegram erfasst (Text, Sprache, Foto)
+- Dashboard zeigt live alle Einträge, KPIs und Charts
+- Nach der Messe: `/messe-auswertung` liefert sofort Zusammenfassung, Aktionsplan und Follow-up-Mails
+- Kein manueller Datentransfer nötig
 
 ---
 
-_Aktualisiere dies, wenn sich Prioritäten verschieben._
+_Aktualisiere dies nach jeder Messe mit Learnings._
